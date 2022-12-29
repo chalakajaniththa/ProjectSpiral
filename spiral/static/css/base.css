@@ -1,0 +1,9 @@
+/**
+ * responsive larger than 1024px screen
+ */
+
+ @media (min-width: 1024px) {
+    main {
+        display: none;
+    }
+}
