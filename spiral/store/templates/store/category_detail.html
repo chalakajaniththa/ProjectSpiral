@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+
+{% block custom_page %}
+    <link rel="stylesheet" href="/static/css/base.css">
+{% endblock %}
+
+{% block modal %}{% if request.user.is_authenticated %}closed{% endif %}{% endblock %}
+
+{% block title %}{{ category.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ category.title }}</h1>
+
+    {% include 'store/partials/products.html' %}
+{% endblock %}

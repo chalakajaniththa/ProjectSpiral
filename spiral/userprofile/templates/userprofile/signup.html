@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+
+{% block custom_page %}
+    <link rel="stylesheet" href="/static/css/base.css">
+{% endblock %}
+
+{% block modal %}{% if request.user.is_authenticated %}closed{% endif %}{% endblock %}
+
+{% block title %}Sign up{% endblock %}
+
+{% block content %}
+    <h1>Sign up</h1>
+
+    <form method="post" action=".">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button>Sign up</button>
+    </form>
+{% endblock %}

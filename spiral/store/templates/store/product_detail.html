@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %}
+
+{% block custom_page %}
+    <link rel="stylesheet" href="/static/css/base.css">
+{% endblock %}
+
+{% block modal %}{% if request.user.is_authenticated %}closed{% endif %}{% endblock %}
+
+{% block title %}{{ product.title }}{% endblock %}
+
+{% block content %}
+    {% if product.image %}
+        <img src="{{ product.image.url }}" alt="Image of {{ product.title }}" class="showcase-img">
+    {% else %}
+        <img src="/static/img/no_image_found.jpg" alt="Image of {{ product.title }}" class="showcase-img">
+    {% endif %}
+
+    <h1>{{ product.title }}</h1>
+    
+    <p>
+        ${{ product.get_display_price }}
+        -
+        <a href="{% url 'vendor_detail' product.user.id %}">{% firstof product.user.get_full_name product.user.username %}</a>
+    </p>
+
+    {% if product.description %}
+        <p>
+            {{ product.description }}
+        </p>
+    {% endif %}
+
+    <a href="{% url 'add_to_cart' product.id %}" style="display: inline-block; padding-left: 2rem; padding-right: 2rem; padding-top: 1rem; padding-bottom: 1rem; background-color: #38b2ac; color: rgb(255 255 255);">
+        Add to cart
+    </a>
+{% endblock %}

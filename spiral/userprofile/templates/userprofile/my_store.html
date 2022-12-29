@@ -1,0 +1,64 @@
+{% extends 'core/base.html' %}
+
+{% block custom_page %}
+    <link rel="stylesheet" href="/static/css/base.css">
+{% endblock %}
+
+{% block modal %}{% if request.user.is_authenticated %}closed{% endif %}{% endblock %}
+
+{% block title %}My store{% endblock %}
+
+{% block content %}
+    <h1>My store</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <a href="{% url 'add_product' %}">Add product</a>
+
+    <h2>My products</h2>
+
+    {% if products %}
+        <div class="product-showcase">
+            <div class="showcase-wrapper has-scrollbar">
+                <div class="showcase-container">
+                    {% for product in products %}
+                        <div class="showcase">
+                            <a href="{% url 'edit_product' product.id %}" class="showcase-img-box">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" alt="Image of {{ product.title }}" width="70" class="showcase-img">
+                                {% else %}
+                                    <img src="/static/img/no_image_found.jpg" alt="Image of {{ product.title }}" width="70" class="showcase-img">
+                                {% endif %}
+                            </a>
+
+                            <div class="showcase-content">
+                                <a href="{% url 'product_detail' product.category.slug product.slug %}">
+                                    <h4 class="showcase-title">{{ product.title }}</h4>
+                                </a>
+
+                                <a href="#" class="showcase-category">Clothes</a>
+
+                                <div class="price-box">
+                                    <p class="price">${{ product.get_display_price }}</p>
+                                    <del>${{ product.get_display_price }}</del>
+
+                                    <hr>
+
+                                    <p><strong>Status: </strong>{{ product.get_status_display }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <P>You don't have any products yet...</P>
+    {% endif %}
+{% endblock %}

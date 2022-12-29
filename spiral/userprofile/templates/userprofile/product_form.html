@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+
+{% block custom_page %}
+    <link rel="stylesheet" href="/static/css/base.css">
+{% endblock %}
+
+{% block modal %}{% if request.user.is_authenticated %}closed{% endif %}{% endblock %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+
+    <form method="post" action="." enctype="multipart/form-data" style="margin-top: 1.25rem">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button>Submit</button>
+    </form>
+
+    {% if product %}
+        <a href="{% url 'delete_product' product.id %}">Delete product</a>
+    {% endif %}
+{% endblock %}
