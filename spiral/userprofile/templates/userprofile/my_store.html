@@ -1,0 +1,153 @@
+{% extends 'core/base.html' %}
+
+{% block title %}My store{% endblock %}
+
+{% block meta %}
+    <meta>
+{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="/static/css/base.css">
+{% endblock %}
+
+{% block modal %}
+    {% if request.user.is_authenticated %}closed{% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1 class="title"><strong>My store</strong></h1>
+
+    <div class="product-minimal">
+            <div class="product-showcase" style="flex-grow: 3; margin-bottom: 20px;">
+                <h1 class="title">My orders ({{ order_items|length }})</h1>
+            
+                <div>
+                    {% if order_items|length %}
+                        {% for order_item in order_items %}
+                            <a href="{% url 'my_store_order_detail' order_item.order.id %}">
+                                <div class="showcase-container" style="margin-bottom: 10px;">
+                                    <div class="showcase">
+                                        <div class="showcase-img-box">
+                                            <img src="{{ order_item.product.get_thumbnail }}" alt="running & trekking shoes - white" class="showcase-img" width="70">
+                                        </div>
+                                
+                                        <div class="showcase-content" style="overflow: hidden; text-overflow: ellipsis;">
+                                            <div>
+                                                <h4 class="showcase-title text-length-fix">{{ order_item.product.title }}</h4>
+                                            </div>
+                                    
+                                            <div class="price-box">
+                                                <p class="price">${{ order_item.get_display_price }}</p>
+                                                <p style="font-size: 13px;">{{ order_item.quantity }}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="showcase-content" style="width: auto;">                                
+                                            <div class="price-box">
+                                                <div class="minus-symbol"></div>
+                                                <div>{{ order_item.quantity }}</div>
+                                                <div class="plus-symbol"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    {% else %}
+                        <div class="showcase-container" style="margin-bottom: 10px;">
+                            <div class="showcase">                    
+                                <div class="showcase-content" style="overflow: hidden; text-overflow: ellipsis;">                        
+                                    <div class="price-box">
+                                        <p class="price">You don't have any products in the cart yet...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>            
+        
+            <div class="product-showcase" style="flex-grow: 1; margin-bottom: 10px;">
+                <h1 class="title">Summary</h1>
+            
+                <div>
+                    <div class="showcase-container" style="margin-bottom: 10px;">
+                        <div class="showcase">              
+                            <div class="showcase-content">
+                                <h4 class="showcase-title text-length-fix">Total:</h4>
+                            </div>
+
+                            <div class="showcase-content">                    
+                                <div class="price-box" style="display:flex; justify-content:flex-end;">
+                                    <div>${{ order_item.get_total_cost }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if order_item|length %}
+                            <div class="product-featured" style="display: flex; align-items: center; justify-content: center;">
+                                <a href="{% url 'checkout' %}" class="add-cart-btn" style="margin-bottom: 0px;">Checkout ({{ order_item|length }})</a>
+                            </div>
+                        {% else %}
+                            <div class="product-featured" style="display: flex; align-items: center; justify-content: center;">
+                                <a href="{% url 'checkout' %}" class="add-cart-btn" style="margin-bottom: 0px; pointer-events: none; cursor: default; background-color: #212121;">Checkout ({{ cart|length }})</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="product-featured" style="display: flex; align-items: center; justify-content: center;">
+        <a href="{% url 'add_product' %}" class="add-cart-btn" style="margin-bottom: 0px;">Add product</a>
+    </div>
+
+    <h2>My products</h2>
+
+    {% if products %}
+        <div class="product-showcase">
+            <div class="showcase-wrapper has-scrollbar">
+                <div class="showcase-container">
+                    {% for product in products %}
+                        <div class="showcase">
+                            <a href="{% url 'edit_product' product.id %}" class="showcase-img-box">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" alt="Image of {{ product.title }}" width="70" class="showcase-img">
+                                {% else %}
+                                    <img src="/static/img/no_image_found.jpg" alt="Image of {{ product.title }}" width="70" class="showcase-img">
+                                {% endif %}
+                            </a>
+
+                            <div class="showcase-content">
+                                <a href="{% url 'product_detail' product.category.slug product.slug %}">
+                                    <h4 class="showcase-title">{{ product.title }}</h4>
+                                </a>
+
+                                <a href="#" class="showcase-category">Clothes</a>
+
+                                <div class="price-box">
+                                    <p class="price">${{ product.get_display_price }}</p>
+                                    <del>${{ product.get_display_price }}</del>
+
+                                    <hr>
+
+                                    <p><strong>Status: </strong>{{ product.get_status_display }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <P>You don't have any products yet...</P>
+    {% endif %}
+{% endblock %}

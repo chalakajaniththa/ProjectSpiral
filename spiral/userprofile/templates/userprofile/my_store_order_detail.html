@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Order detail - {{ order.id }}{% endblock %}
+
+{% block meta %}
+    <meta>
+{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="/static/css/base.css">
+{% endblock %}
+
+{% block modal %}
+    {% if request.user.is_authenticated %}closed{% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1 class="title"><strong>Order detail - {{ order.id }}</strong></h1>
+
+    <h1 class="title">My product in this order</h1>
+
+    {% for item in order.items.all %}
+        {% if item.product.user == request.user %}
+            <div>
+                {{ order.id }}
+            </div>
+
+            <div>
+                {{ item.product.title }}
+            </div>
+
+            <div>
+                {{ item.quantity }}
+            </div>
+
+            <div>
+                {{ item.get_display_price }}
+            </div>
+
+            <hr>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Success{% endblock %}
+
+{% block meta %}
+    <meta>
+{% endblock %}
+
+{% block custom_css %}
+    <style>
+        @media (min-width: 1024px) {
+            main {
+                display: none;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block modal %}
+    {% if request.user.is_authenticated %}closed{% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1 class="title"><strong>Success</strong></h1>
+
+    <p>
+        Thank you for shopping with us!
+    </p>
+{% endblock %} 

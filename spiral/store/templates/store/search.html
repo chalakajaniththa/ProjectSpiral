@@ -1,0 +1,77 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Search{% endblock %}
+
+{% block meta %}
+    <meta>
+{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="/static/css/base.css">
+{% endblock %}
+
+{% block modal %}
+    {% if request.user.is_authenticated %}closed{% endif %}
+{% endblock %}
+
+{% block content %}
+    <h2 class="title">Search result for "{{ query }}":</h2>
+
+    {% if products %}
+        <div class="product-main">
+            <div class="product-grid">
+                {% for product in products %}
+                    <div class="showcase">
+                        <div class="showcase-banner">
+                            <img src="{{ product.get_thumbnail }}" alt="Black Floral Wrap Midi Skirt" class="product-img default" width="300">
+                            <img src="/static/img/products/clothes-4.jpg" alt="Black Floral Wrap Midi Skirt" class="product-img hover" width="300">
+                    
+                            <p class="showcase-badge angle pink">new</p>
+                    
+                            <div class="showcase-actions">
+                                <button class="btn-action">
+                                    <ion-icon name="heart-outline"></ion-icon>
+                                </button>
+                        
+                                <button class="btn-action">
+                                    <ion-icon name="eye-outline"></ion-icon>
+                                </button>
+                        
+                                <button class="btn-action">
+                                    <ion-icon name="repeat-outline"></ion-icon>
+                                </button>
+                        
+                                <button class="btn-action">
+                                    <ion-icon name="bag-add-outline"></ion-icon>
+                                </button>
+                            </div>
+                        </div>
+                    
+                        <div class="showcase-content">
+                            <a href="#" class="showcase-category">skirt</a>
+                        
+                            <h3>
+                                <a href="{% url 'product_detail' product.category.slug product.slug %}" class="showcase-title">{{ product.title }}</a>
+                            </h3>
+                        
+                            <div class="showcase-rating">
+                                <ion-icon name="star"></ion-icon>
+                                <ion-icon name="star"></ion-icon>
+                                <ion-icon name="star"></ion-icon>
+                                <ion-icon name="star"></ion-icon>
+                                <ion-icon name="star"></ion-icon>
+                            </div>
+                        
+                            <div class="price-box">
+                                <p class="price">${{ product.get_display_price }}</p>
+                                <del>$35.00</del>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <p>There are no products matching this query!</p>
+    {% endif %}
+{% endblock %}

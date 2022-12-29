@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+    About
+{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="This is the online shop thet you can buy everything at one place">
+    <meta name="author" content="D M C Janiththa">
+    <meta name="og:title" content="Store | About">
+    <meta name="og:description" content="This is the online shop thet you can buy everything at one place">
+    <meta name="og:type" content="article">
+    <meta name="og:url" content="site.url">
+{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="/static/css/base.css">
+{% endblock %}
+
+{% block modal %}
+    {% if request.user.is_authenticated %}closed{% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1>About Us</h1>
+{% endblock %}
